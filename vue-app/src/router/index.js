@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import BodyPart from './../components/BodyPart.vue'
+import Body from './../components/Body.vue'
 import Login from './../components/Login.vue'
 
 const routes = [
    {
     path: '/', // That's what you'd see in the browser location bar
     name: 'Home', // Because it's home page
-    component: BodyPart,    
+    component: Body,    
    },
    {
     path: '/login',
