@@ -53,24 +53,24 @@ export default {
               
             const payload = {
                email: this.email,
-               password: this.password
+               password: this.password,
             }
 
             const requestOptions = {
                 method: "POST",
-                body: JSON.stringify(payload) // make the string the payload.
+                body: JSON.stringify(payload), // make the string the payload.
             }
 
             fetch("http://localhost:8081/users/login", requestOptions)
             .then((Response) => Response.json()) // convert to 
             .then((data) => {
-                if (data.console.error){
+                if (data.error){
                    console.log("Error:", data.message); // it comes from our backend
                 }else{
                   console.log(data);
                 }
             })
         }
-    },
+    }
 }
 </script>
