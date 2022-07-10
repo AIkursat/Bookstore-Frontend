@@ -50,6 +50,26 @@ export default {
     methods: {
         submitHandler() {
             console.log("submitHandler called - success!");
+              
+            const payload = {
+               email: this.email,
+               password: this.password
+            }
+
+            const requestOptions = {
+                method: "POST",
+                body: JSON.stringify(payload) // make the string the payload.
+            }
+
+            fetch("http://localhost:8081/users/login", requestOptions)
+            .then((Response) => Response.json()) // convert to 
+            .then((data) => {
+                if (data.console.error){
+                   console.log("Error:", data.message); // it comes from our backend
+                }else{
+                  console.log(data);
+                }
+            })
         }
     },
 }
