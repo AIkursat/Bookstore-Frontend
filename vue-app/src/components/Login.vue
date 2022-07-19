@@ -22,6 +22,10 @@
                         required="true">
                     </text-input>
 
+                    <hr />
+
+                    Email: {{email}}
+
                     <hr>
                     <input type="submit" class="btn btn-primary" value="Login">
                 </form-tag>
