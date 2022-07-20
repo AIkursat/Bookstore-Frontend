@@ -36,7 +36,7 @@
 import FormTag from './forms/FormTag.vue'
 import TextInput from './forms/TextInput.vue'
 import { store } from './store.js'
-import router from './../router/index'
+import router from './../router/index.js'
 import notie from 'notie'
 
 export default {
@@ -67,19 +67,19 @@ export default {
                 body: JSON.stringify(payload), // make the string the payload.
             }
 
-            fetch("http://localhost:8080/users/login", requestOptions)
+            fetch("http://localhost:8081/users/login", requestOptions)
             .then((response) => response.json()) // convert to 
             .then((response) => {
                 if (response.error){
                    console.log("Error:", response.message); // it comes from our backend
                    notie.alert({
                     type: 'error',
-                    text: response.error.message,
+                    text: response.message,
                      //stay: true,
                      //position: 'bottom'
                    })
                 }else{
-                  console.log("token:", response.data.token.token);
+                  console.log("Token:", response.data.token.token);
                   store.token = response.data.token.token;
                   router.push("/"); // It will take us to homepage
 
