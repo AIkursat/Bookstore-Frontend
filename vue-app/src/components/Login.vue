@@ -37,6 +37,7 @@ import TextInput from './forms/TextInput.vue'
 import { store } from './store.js'
 import router from './../router/index.js'
 import notie from 'notie'
+import Security from './security.js'
 
 export default {
     name: 'login',
@@ -60,16 +61,16 @@ export default {
                 password: this.password,
             }
 
-            const requestOptions = {
+           /* const requestOptions = {
                 method: "POST",
                 body: JSON.stringify(payload),
             }
+            */ // Because we use the security
 
-            fetch("http://localhost:8081/users/login", requestOptions)
+            fetch("http://localhost:8081/users/login", Security.requestOptions(payload))
             .then((response) => response.json())
             .then((response) => {
                 if (response.error) {
-                    console.log("Error:", response.message);
                     notie.alert({
                         type: 'error',
                         text: response.message,

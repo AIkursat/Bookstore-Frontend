@@ -55,6 +55,7 @@
 <script>
 import { store } from './store.js'
 import router from './../router/index.js'
+import Security from './security.js'
 
 export default {
   data() {
@@ -68,12 +69,12 @@ export default {
         token: store.token,
       }
 
-      const requestOptions = {
+      /*const requestOptions = {
         method: "POST",
         body: JSON.stringify(payload),
-      }
+      } */ // because we use the Security
 
-      fetch("http://localhost:8081/users/logout", requestOptions)
+      fetch("http://localhost:8081/users/logout", Security.requestOptions(payload))
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {
