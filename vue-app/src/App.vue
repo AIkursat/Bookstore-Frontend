@@ -9,18 +9,17 @@
 <script>
 import Header from "./components/Header.vue"
 import Footer from "./components/Footer.vue"
-import { store } from './components/store'
+import { store } from './components/store.js'
 
 const getCookie = (name) => {
-  return document.cookie.split("; ").reduce((r,v ) => {
+  return document.cookie.split("; ").reduce((r, v) => {
     const parts = v.split("=");
     return parts[0] === name ? decodeURIComponent(parts[1]) : r;
   }, "");
 }
 
-
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Header,
     Footer,
@@ -34,12 +33,11 @@ export default {
     // check for a cookie
     let data = getCookie("_site_data");
 
-    if(data !== ""){
+    if (data !== "") {
       let cookieData = JSON.parse(data);
 
       // update store
-
-      store.token = cookieData.token;
+      store.token = cookieData.token.token;
       store.user = {
         id: cookieData.user.id,
         first_name: cookieData.user.first_name,
@@ -48,27 +46,9 @@ export default {
       }
     }
   },
-  mounted() {
-    const payload = {
-      foo: "bar", 
-    }
-    
-    const requestOptions = {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: headers,
-    }
-
-    fetch("http://localhost:8081/admin/foo", requestOptions)
-   .then((response) => response.json())
-   .then((data) => {
-    console.log(data);
-   })
-
-  },
-
 }
 </script>
 
 <style>
+
 </style>

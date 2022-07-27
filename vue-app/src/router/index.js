@@ -12,43 +12,43 @@ const routes = [
    {
     path: '/', // That's what you'd see in the browser location bar
     name: 'Home', // Because it's home page
-    component: Body,    
-   },
-   {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-   },
-   {
+    component: Body,
+   },    
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+  },
+  {
       path: '/books',
       name: 'Books',
       component: Books,
-   },
-   {
+  },
+  {
       path: '/books/:bookName',
       name: 'Book',
       component: Book,
-   },
-   {
-      path: 'admin/books',
+  },
+  {
+      path: '/admin/books',
       name: 'BooksAdmin',
       component: BooksAdmin,
-   },
-   {
-      path: '/admin/books/:BookId',
+  },
+  {
+      path: '/admin/books/:bookId',
       name: 'BookEdit',
       component: BookEdit,
-   },
-   {
+  },
+  {
       path: '/admin/users',
       name: 'Users',
       component: Users,
-   },
-   {
+  },
+  {
       path: '/admin/users/:userId',
       name: 'User',
       component: User,
-   }
+  },
 
 ]
 
