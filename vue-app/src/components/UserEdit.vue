@@ -44,6 +44,7 @@
                         v-model="user.password"
                         type="password"
                         label="Password"
+                        help="leave empty to keep existing password"
                         :value="user.password"
                         name="password"></text-input>
 
@@ -120,7 +121,7 @@ export default {
                 password: this.user.password,
             }
 
-            fetch(`${process.env.VUE_APP_API_URL}/admin/users/save`, Security.requestOptions(payload))
+            fetch("http://localhost:8081/admin/users/save", Security.requestOptions(payload))
             .then((response) => response.json())
             .then((data) => {
                 if (data.error) {
