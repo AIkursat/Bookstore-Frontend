@@ -79,7 +79,7 @@ export default {
         if (parseInt(String(this.$route.params.userId), 10) > 0) {
             // editing an existing user
              // TODO - get user from db
-            fetch("http:localhost:8081/admin/users/get/" + this.$route.params.userId, Security.requestOptions(""))
+            fetch("http://localhost:8081/admin/users/get" + this.$route.params.userId, Security.requestOptions(""))
             .then((response) => response.json())
             .then((data) => {
                 if (data.error) {
@@ -143,7 +143,34 @@ export default {
                 })
             })
         }, 
-        confirmDelete() {
+        confirmDelete(id) {
+           notie.confirm({
+            text: "Are you sure for deleting this user?",
+            submitText: "Delete",
+            submitCallback: function() {
+                console.log("will delete", id)
+
+              let payload = {
+                id: id,
+              }
+               fetch("http://localhost:8081/admin/users/delete", Security.requestOptions(payload))
+               .then((response) => response.json())
+               .then((data)=> {
+                  if (data.error) {
+                    notie.alert({
+                        type: 'error',
+                        text: data.message,
+                    })
+                  }else{
+                    notie.alert({
+                        type: 'success',
+                        text: "user deleted",
+                    })
+                  }
+               })
+
+            }
+           })
 
         }
     }
