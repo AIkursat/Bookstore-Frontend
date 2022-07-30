@@ -4,7 +4,7 @@
             <div class="col">
                 <h1 class="mt-3">User</h1>
                 <hr>
-                <form-tag @userEditEvent="submitHandler" name="userform" event="userEditEvent">
+                <form-tag v-if="this.ready" @userEditEvent="submitHandler" name="userform" event="userEditEvent">
 
                     <text-input
                         v-model="user.first_name"
@@ -44,9 +44,22 @@
                         v-model="user.password"
                         type="password"
                         label="Password"
-                        help="leave empty to keep existing password"
+                        help="Leave empty to keep existing password"
                         :value="user.password"
                         name="password"></text-input>
+
+                    <div class="form-check">
+                        <input v-model="user.active" class="form-check-input" type="radio" id="user-active" :value="1">
+                        <label class="form-check-label" for="user-active">
+                            Active
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input v-model="user.active" class="form-check-input" type="radio" id="user-active-2" :value="0">
+                        <label class="form-check-label" for="user-active-2">
+                            Inactive
+                        </label>
+                    </div>
 
                     <hr>
                     <div class="float-start">
@@ -60,6 +73,8 @@
                     <div class="clearfix"></div>
 
                 </form-tag>
+
+                <p v-else>Loading...</p>
             </div>
         </div>
     </div>
@@ -79,18 +94,20 @@ export default {
 
         if (parseInt(String(this.$route.params.userId), 10) > 0) {
             // editing an existing user
-             // TODO - get user from db
-            fetch("http://localhost:8081/admin/users/get" + this.$route.params.userId, Security.requestOptions(""))
+            fetch("http://localhost:8081/admin/users/get/" + this.$route.params.userId, Security.requestOptions(""))
             .then((response) => response.json())
             .then((data) => {
                 if (data.error) {
-                 this.$emit('error', data.message)
+                    this.$emit('error', data.message);
                 } else {
                     this.user = data;
+                    this.ready = true;
                     // we want password to be empty for existing users
                     this.user.password = "";
                 }
             })
+        } else {
+            this.ready = true;
         }
     },
     data() {
@@ -101,8 +118,10 @@ export default {
                 last_name: "",
                 email: "",
                 password: "",
+                active: 0,
             },
             store,
+            ready: false,
         }
     },
     components: {
@@ -117,46 +136,44 @@ export default {
                 last_name: this.user.last_name,
                 email: this.user.email,
                 password: this.user.password,
+                active: this.user.active,
             }
 
             fetch("http://localhost:8081/admin/users/save", Security.requestOptions(payload))
             .then((response) => response.json())
             .then((data) => {
                 if (data.error) {
-                   this.$emit('error', data.message)
+                    this.$emit('error', data.message);
                 } else {
-                  this.$emit('success', "changes saved!");
-                  router.push("/admin/users");
+                    this.$emit('success', "Changes saved!");
+                    router.push("/admin/users");
                 }
             })
             .catch((error) => {
-                this.$emit('error', error)
+                this.$emit('error', error);
             })
         }, 
         confirmDelete(id) {
-           notie.confirm({
-            text: "Are you sure for deleting this user?",
-            submitText: "Delete",
-            submitCallback: function() {
-                console.log("will delete", id)
+            notie.confirm({
+                text: "Are you sure you want to delete this user?",
+                submitText: "Delete",
+                submitCallback: function() {
+                    let payload = {
+                        id: id,
+                    }
 
-              let payload = {
-                id: id,
-              }
-               fetch("http://localhost:8081/admin/users/delete", Security.requestOptions(payload))
-               .then((response) => response.json())
-               .then((data)=> {
-                  if (data.error) {
-                   this.$emit('error', data.message);   
-                  }else{
-                    this.$emit('success', "User deleted");
-                    router.push("/admin/users")
-                  }
-               })
-
-            }
-           })
-
+                    fetch("http://localhost:8081/admin/users/delete", Security.requestOptions(payload))
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.error) {
+                            this.$emit('error', data.message);
+                        } else {
+                            this.$emit('success', "User deleted");
+                            router.push("/admin/users")
+                        }
+                    })
+                }
+            })
         }
     }
 }
