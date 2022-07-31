@@ -74,7 +74,7 @@ export default {
         body: JSON.stringify(payload),
       } */ // because we use the Security
 
-      fetch("http://localhost:8081/users/logout", Security.requestOptions(payload))
+      fetch(process.env.VUE_APP_API_URL + "/users/logout", Security.requestOptions(payload))
       .then((response) => response.json())
       .then((response) => {
         if (response.error) {
